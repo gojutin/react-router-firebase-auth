@@ -12,6 +12,7 @@ This is an example repo for authenticating with Firebase and React Router.
 
 #### Instructions:
 * Swap out the firebase config in ```config/constants``` with your own
+* Enable the Email/Password sign-in methods in the Firebase Console
 * ```npm install```
 * ```npm start```
 * Visit ```localhost:3000```

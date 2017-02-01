@@ -1,9 +1,9 @@
 import firebase from 'firebase'
 
 const config = {
-  apiKey: "AIzaSyDHL6JFTyBcaV60WpE4yXfeO0aZbzA9Xbk",
-  authDomain: "practice-auth.firebaseapp.com",
-  databaseURL: "https://practice-auth.firebaseio.com",
+  apiKey: "Your API Key",
+  authDomain: "yourdomain.firebaseapp.com",
+  databaseURL: "https://yourdomain.firebaseio.com",
 }
 
 firebase.initializeApp(config)

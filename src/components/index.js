@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import { Match, BrowserRouter, Link, Miss, Redirect } from 'react-router'
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
 import Home from './Home'
@@ -10,7 +10,7 @@ import { firebaseAuth } from '../config/constants'
 
 function MatchWhenAuthed ({component: Component, authed, ...rest}) {
   return (
-    <Match
+    <Route
       {...rest}
       render={(props) => authed === true
         ? <Component {...props} />
@@ -21,7 +21,7 @@ function MatchWhenAuthed ({component: Component, authed, ...rest}) {
 
 function MatchWhenUnauthed ({component: Component, authed, ...rest}) {
   return (
-    <Match
+    <Route
       {...rest}
       render={(props) => authed === false
         ? <Component {...props} />
@@ -54,8 +54,7 @@ export default class App extends Component {
   }
   render() {
     return this.state.loading === true ? <h1>Loading</h1> : (
-      <BrowserRouter>
-        {({router}) => (
+      <Router>
           <div>
             <nav className="navbar navbar-default navbar-static-top">
               <div className="container">
@@ -76,7 +75,7 @@ export default class App extends Component {
                           onClick={() => {
                             logout()
                             this.setState({authed: false})
-                            router.transitionTo('/')
+                            Router.transitionTo('/')
                           }}
                           className="navbar-brand">Logout</button>
                       : <span>
@@ -89,16 +88,17 @@ export default class App extends Component {
             </nav>
             <div className="container">
               <div className="row">
-                <Match pattern='/' exactly component={Home} />
-                <MatchWhenUnauthed authed={this.state.authed} pattern='/login' component={Login} />
-                <MatchWhenUnauthed authed={this.state.authed} pattern='/register' component={Register} />
-                <MatchWhenAuthed authed={this.state.authed} pattern='/dashboard' component={Dashboard} />
-                <Miss render={() => <h3>No Match</h3>} />
+                <Switch>
+                  <Route exact path='/'  component={Home} />
+                  <MatchWhenUnauthed authed={this.state.authed} path='/login' component={Login} />
+                  <MatchWhenUnauthed authed={this.state.authed} path='/register' component={Register} />
+                  <MatchWhenAuthed authed={this.state.authed} path='/dashboard' component={Dashboard} />
+                  <Route render={() => <h3>No Match</h3>} />
+                </Switch>
               </div>
             </div>
           </div>
-        )}
-      </BrowserRouter>
+      </Router>
     );
   }
 }
